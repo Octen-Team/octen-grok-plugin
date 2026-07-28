@@ -1,6 +1,6 @@
 ---
 name: octen-web
-description: Use Octen for live web and news search, multi-angle research, clean URL extraction, and Beta image (Octen Design) and video search.
+description: Use Octen for web/news search, broad research, URL extraction, and Beta image (Octen Design) and video search.
 ---
 
 # Octen Web

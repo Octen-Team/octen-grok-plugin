@@ -23,7 +23,7 @@ const skill = await readFile("skills/octen-web/SKILL.md", "utf8");
 const readme = await readFile("README.md", "utf8");
 assert.match(
   skill,
-  /^description: Use Octen for live web and news search, multi-angle research, clean URL extraction, and Beta image \(Octen Design\) and video search\.$/m,
+  /^description: Use Octen for web\/news search, broad research, URL extraction, and Beta image \(Octen Design\) and video search\.$/m,
 );
 for (const tool of [
   "search",
