@@ -2,9 +2,10 @@
   "mcpServers": {
     "octen": {
       "command": "npx",
-      "args": ["-y", "octen-mcp"],
+      "args": ["-y", "octen-mcp@0.3.6"],
       "env": {
-        "OCTEN_API_KEY": "${OCTEN_API_KEY}"
+        "OCTEN_API_KEY": "${OCTEN_API_KEY}",
+        "OCTEN_ENABLE_BETA_TOOLS": "false"
       }
     }
   }

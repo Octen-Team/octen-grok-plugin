@@ -1,7 +1,7 @@
 {
   "name": "octen",
   "version": "1.0.0",
-  "description": "Live web search, news search, broad multi-angle search, clean URL extraction, and Beta image/video search for Grok Build via Octen MCP.",
+  "description": "Live web search, news search, broad multi-angle search, and clean URL extraction for Grok Build via Octen MCP.",
   "author": {
     "name": "Octen",
     "url": "https://github.com/Octen-Team"
@@ -16,8 +16,6 @@
     "web search",
     "news search",
     "content extraction",
-    "image search",
-    "video search",
     "mcp"
   ]
 }
