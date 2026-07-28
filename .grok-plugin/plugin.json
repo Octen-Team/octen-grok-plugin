@@ -1,0 +1,21 @@
+{
+  "name": "octen",
+  "version": "1.0.0",
+  "description": "Live web search, broad multi-angle search, clean URL extraction, and Beta UI-design reference search for Grok Build via Octen MCP.",
+  "author": {
+    "name": "Octen",
+    "url": "https://github.com/Octen-Team"
+  },
+  "repository": "https://github.com/Octen-Team/octen-grok-plugin",
+  "homepage": "https://octen.ai",
+  "license": "MIT",
+  "keywords": [
+    "octen",
+    "octen search",
+    "octen ai",
+    "web search",
+    "content extraction",
+    "ui design references",
+    "mcp"
+  ]
+}

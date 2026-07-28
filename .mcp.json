@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "octen": {
+      "command": "npx",
+      "args": ["-y", "octen-mcp"],
+      "env": {
+        "OCTEN_API_KEY": "${OCTEN_API_KEY}"
+      }
+    }
+  }
+}
