@@ -19,4 +19,22 @@ assert.deepEqual(octen.args, ["-y", "octen-mcp"]);
 assert.equal(octen.env.OCTEN_API_KEY, "${OCTEN_API_KEY}");
 assert.equal(JSON.stringify(mcpConfig).includes("sk-"), false);
 
+const skill = await readFile("skills/octen-web/SKILL.md", "utf8");
+const readme = await readFile("README.md", "utf8");
+for (const tool of [
+  "search",
+  "news_search",
+  "broad_search",
+  "extract",
+  "image_search",
+  "video_search",
+]) {
+  assert.match(skill, new RegExp(`\\b${tool}\\b`));
+}
+for (const unsupportedTool of ["deep_research"]) {
+  assert.doesNotMatch(skill, new RegExp(`\\b${unsupportedTool}\\b`));
+}
+assert.match(readme, /OCTEN_API_KEY/);
+assert.match(readme, /Beta/);
+
 console.log("Plugin manifest and MCP configuration are valid.");
