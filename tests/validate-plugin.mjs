@@ -14,11 +14,31 @@ assert.equal(manifest.homepage, "https://octen.ai");
 
 assert.deepEqual(Object.keys(mcpConfig.mcpServers), ["octen"]);
 const octen = mcpConfig.mcpServers.octen;
-assert.equal(octen.command, "npx");
-assert.deepEqual(octen.args, ["-y", "octen-mcp@0.3.6"]);
-assert.equal(octen.env.OCTEN_API_KEY, "${OCTEN_API_KEY}");
-assert.equal(octen.env.OCTEN_ENABLE_BETA_TOOLS, "false");
-assert.equal(JSON.stringify(mcpConfig).includes("sk-"), false);
+
+// Hosted server over HTTP, matching every other remote entry in the Grok
+// catalog. Asserted rather than assumed because the previous revision spawned
+// `npx octen-mcp@0.3.6` locally, and that version shipped the HTTP-layer
+// defects behind a customer's failure report.
+assert.equal(octen.type, "http");
+assert.equal(new URL(octen.url).origin + new URL(octen.url).pathname,
+  "https://mcp.octen.ai/mcp");
+
+// Nothing spawned, nothing read from the environment: an OAuth grant is the
+// only credential, so a stray command/env here would be a real regression.
+for (const key of ["command", "args", "env"]) {
+  assert.equal(key in octen, false, `${key} must not be set on a hosted server`);
+}
+
+// Only the generally available tools. Image and video search are invite-only
+// beta, and advertising a tool that answers 403 is worse than not offering it.
+const advertised = new URL(octen.url).searchParams.get("tools")?.split(",");
+assert.deepEqual(advertised, ["search", "news_search", "broad_search", "extract"]);
+
+// No credential may be embedded in the config, in any spelling.
+const raw = JSON.stringify(mcpConfig);
+for (const pattern of [/sk-/, /octen-[0-9a-f]{32}/, /api[-_]?key/i, /Bearer /]) {
+  assert.doesNotMatch(raw, pattern, `config must not carry a credential (${pattern})`);
+}
 
 const skill = await readFile("skills/octen-web/SKILL.md", "utf8");
 const readme = await readFile("README.md", "utf8");
@@ -34,7 +54,13 @@ for (const tool of ["search", "news_search", "broad_search", "extract"]) {
 for (const unsupportedTool of ["deep_research", "image_search", "video_search"]) {
   assert.doesNotMatch(skill, new RegExp(`\\b${unsupportedTool}\\b`));
 }
-assert.match(readme, /OCTEN_API_KEY/);
+// The marketplace guide asks submissions to declare their network endpoints
+// and credentials in the README; these assertions keep that from rotting.
+assert.match(readme, /https:\/\/mcp\.octen\.ai\/mcp/);
+assert.match(readme, /https:\/\/auth\.octen\.ai/);
+assert.match(readme, /OAuth/);
+// The local-install instructions are gone along with the local install.
+assert.doesNotMatch(readme, /OCTEN_API_KEY|npx/);
 assert.doesNotMatch(readme, /image_search|video_search/);
 
 console.log("Plugin manifest and MCP configuration are valid.");

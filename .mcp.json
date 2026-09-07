@@ -1,12 +1,9 @@
 {
   "mcpServers": {
     "octen": {
-      "command": "npx",
-      "args": ["-y", "octen-mcp@0.3.6"],
-      "env": {
-        "OCTEN_API_KEY": "${OCTEN_API_KEY}",
-        "OCTEN_ENABLE_BETA_TOOLS": "false"
-      }
+      "type": "http",
+      "url": "https://mcp.octen.ai/mcp?tools=search,news_search,broad_search,extract",
+      "note": "Official Octen hosted MCP server. Uses OAuth — on first connection you are prompted to sign in and authorize in the browser; no API key to paste and nothing installed locally. The tools query parameter narrows this connection to the four generally available tools, so the roster a user sees is one they can actually call. Tools: search (focused current web search), news_search (recent events and reporting), broad_search (multi-angle coverage from generated sub-queries), extract (clean structured content from URLs)."
     }
   }
 }
