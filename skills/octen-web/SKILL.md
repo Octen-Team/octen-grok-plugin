@@ -26,6 +26,8 @@ rather than pasting raw results.
    before presenting a conclusion.
 3. Keep source URLs with factual claims. Clearly distinguish retrieved facts
    from your inference or recommendation.
-4. If the server cannot authenticate, ask the user to configure
-   `OCTEN_API_KEY` in their local environment. Never request or echo an API key
-   in chat.
+4. The connection authorises over OAuth: the first call opens a browser
+   sign-in, and the approval is stored with the connection. If a call comes back
+   unauthenticated, tell the user to reconnect the Octen server and complete
+   that sign-in — there is no key to paste, so never ask for one or echo a
+   credential in chat.
