@@ -15,8 +15,22 @@ hosted MCP server for current web retrieval and content extraction.
 ## Install
 
 ```bash
+grok plugin marketplace add xai-org/plugin-marketplace
 grok plugin install octen --trust
 ```
+
+Or from inside a session: type `/marketplace`, search for `octen`, and press `i`.
+
+If `install` reports that a name cannot be resolved safely, another registered
+marketplace failed to scan and Grok Build will not guess between sources. Pin
+this one explicitly:
+
+```bash
+grok plugin install octen@plugin-marketplace --trust
+```
+
+Grok Build keys marketplaces on the repository name, so the qualifier is
+`plugin-marketplace` rather than the `name` inside the catalog file.
 
 Nothing is installed locally and there is no API key to paste. On first
 connection the agent is prompted to sign in to Octen and authorize the
