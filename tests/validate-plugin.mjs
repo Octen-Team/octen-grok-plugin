@@ -29,15 +29,19 @@ for (const key of ["command", "args", "env"]) {
   assert.equal(key in octen, false, `${key} must not be set on a hosted server`);
 }
 
-// Only the generally available tools. video_search is invite-only beta, and
-// advertising a tool that answers 403 is worse than not offering it;
-// image_search stopped being one when the API opened it to every account.
+// The roster must come from the server, not from this file. `?tools=` is an
+// allowlist: a tool missing from it is invisible to Grok however long it has
+// been live, and keeping it current means a marketplace PR per tool. That is
+// how business, place and pulse search, and image_search once it left Beta,
+// went on being unreachable here for weeks after they shipped.
 //
-// This list is an allowlist, so a tool missing here is invisible to Grok even
-// after it ships on the server — which is how news, business, place and pulse
-// search went on being unreachable here after they were added upstream.
-const advertised = new URL(octen.url).searchParams.get("tools")?.split(",");
-assert.deepEqual(advertised, ["search", "news_search", "business_search", "place_search", "pulse_search", "broad_search", "extract", "image_search"]);
+// video_search is invite-only and is advertised anyway: the server answers a
+// clear 403 at call time for an account without access, which is what every
+// other client already sees.
+const url = new URL(octen.url);
+assert.equal(url.searchParams.has("tools"), false,
+  "the hosted URL must not pin a tool allowlist — the server decides the roster");
+assert.equal(url.search, "", "the hosted URL takes no query parameters");
 
 // No credential may be embedded in the config, in any spelling.
 const raw = JSON.stringify(mcpConfig);
@@ -54,8 +58,11 @@ assert.match(
 for (const tool of ["search", "news_search", "business_search", "place_search", "pulse_search", "broad_search", "extract", "image_search"]) {
   assert.match(skill, new RegExp(`\\b${tool}\\b`));
 }
-// Beta tools are gated off for this plugin (OCTEN_ENABLE_BETA_TOOLS=false), so
-// they must not be documented or referenced anywhere user-facing.
+// video_search is reachable — the server advertises it — but most accounts are
+// not in its invite-only Beta, so routing guidance must not send the agent to
+// a tool it will get a 403 from. Documenting it is the thing to avoid, not
+// exposing it. (`OCTEN_ENABLE_BETA_TOOLS` lives on the hosted server; nothing
+// in this plugin sets or can set it.)
 for (const unsupportedTool of ["deep_research", "video_search"]) {
   assert.doesNotMatch(skill, new RegExp(`\\b${unsupportedTool}\\b`));
 }
