@@ -8,9 +8,13 @@ hosted MCP server for current web retrieval and content extraction.
 | Tool | Use |
 | --- | --- |
 | `search` | Focused, current web search and source discovery. |
-| `news_search` | Recent events, announcements, and time-sensitive reporting. |
+| `news_search` | Recent events and reporting, returned as articles **and** as storylines — the coverage grouped into subjects with summaries. |
+| `business_search` | A company or person as a structured card: profile, financials, key people, career history, recent announcements. |
+| `place_search` | Real-world places with address, coordinates, phone, opening hours and rating, around a point or in a named area. |
+| `pulse_search` | The URL a query most likely means, in about 10ms — official docs, help centres, known sites. |
 | `broad_search` | Multi-angle web search for broad coverage. |
 | `extract` | Clean, structured content from supplied or selected URLs. |
+| `image_search` | Images by text query or a reference image. |
 
 ## Install
 
