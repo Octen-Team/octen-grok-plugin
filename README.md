@@ -55,10 +55,10 @@ at any time.
 - **Not included:** no hooks, no lifecycle scripts, no telemetry, no shell
   execution, and no filesystem access.
 
-The connection is narrowed with `?tools=search,news_search,broad_search,extract`
-so it advertises only the four generally available tools. Octen's image and
-video search are in invite-only beta; without them in the roster a user is not
-offered a tool that would answer `403`.
+The connection takes no `?tools=` filter: the roster is whatever the server
+advertises, so a tool Octen adds reaches Grok Build without a change here.
+Octen's video search is in invite-only beta; the server advertises it like the
+rest and answers `403` at call time for an account without access.
 
 ## License
 
