@@ -7,10 +7,16 @@ const manifest = await readJson(".grok-plugin/plugin.json");
 const mcpConfig = await readJson(".mcp.json");
 
 assert.equal(manifest.name, "octen");
-assert.equal(manifest.version, "1.0.0");
+// Semver, not a literal: xAI's marketplace only moves its pin when this value
+// changes, so every release must bump it, and a pinned literal guards nothing.
+assert.match(manifest.version, /^\d+\.\d+\.\d+$/);
 assert.equal(manifest.license, "MIT");
 assert.equal(manifest.repository, "https://github.com/Octen-Team/octen-grok-plugin");
 assert.equal(manifest.homepage, "https://octen.ai");
+// The marketplace card shows this description, so it must not promise the
+// invite-only tools and must keep naming the generally available ones.
+assert.doesNotMatch(manifest.description, /video|deep[ _]research/i);
+assert.match(manifest.description, /image search/);
 
 assert.deepEqual(Object.keys(mcpConfig.mcpServers), ["octen"]);
 const octen = mcpConfig.mcpServers.octen;
@@ -61,8 +67,7 @@ for (const tool of ["search", "news_search", "business_search", "place_search", 
 // video_search is reachable — the server advertises it — but most accounts are
 // not in its invite-only Beta, so routing guidance must not send the agent to
 // a tool it will get a 403 from. Documenting it is the thing to avoid, not
-// exposing it. (`OCTEN_ENABLE_BETA_TOOLS` lives on the hosted server; nothing
-// in this plugin sets or can set it.)
+// exposing it.
 for (const unsupportedTool of ["deep_research", "video_search"]) {
   assert.doesNotMatch(skill, new RegExp(`\\b${unsupportedTool}\\b`));
 }
