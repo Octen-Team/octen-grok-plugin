@@ -1,6 +1,6 @@
 ---
 name: octen-web
-description: Use Octen for web and news search, company and place lookup, fast URL lookup, broad research, image search, and clean URL extraction.
+description: Use Octen for web and news search, company and place lookup, fast URL lookup, broad research, deeper web search, image search, design references, and clean URL extraction.
 ---
 
 # Octen Web
@@ -12,6 +12,13 @@ rather than pasting raw results.
 ## Tool selection
 
 - Use `search` for a focused, current web question or source discovery.
+- Use `premier_search` when finding the exact page decides the answer: a
+  specific fact buried deep in a page, a niche document, a report or filing you
+  can name but not locate, or a question `search` has just answered thinly or
+  off-target. It takes every parameter `search` takes and returns the same
+  shape, with deeper retrieval and more careful reranking. It is slower and is
+  billed at its own per-call rate, which a Search Plan's unlimited searches do
+  not cover, so default to `search` for ordinary lookups.
 - Use `news_search` for recent events, announcements, or time-sensitive news.
   It returns articles **and** `subjects` — the coverage grouped into
   storylines with summaries; read those before the articles.
@@ -32,6 +39,18 @@ rather than pasting raw results.
 - Use `extract` to read clean content from supplied URLs or selected search
   results. Prefer highlights when a query-specific fact is sufficient.
 - Use `image_search` to find images by a text query or a reference image.
+- Use `design_search` to find real designs to build from: screenshots of web
+  pages, page sections, mobile app screens and presentation slides, each with
+  its design values where it has them (colours, fonts and font sizes; the
+  fields vary by image) and, for a page section that has reusable code, the
+  HTML. Describe what is being built, for example "pricing section
+  for a SaaS landing page". A page section or slide carries a `group_id`; to
+  get the rest of that page or deck, call again with `images.group_id` set to
+  that id and `images.count` set to the group's total (100 at most, the default
+  returns only 5); that call needs no query. The image links are signed and
+  expire, so use them right away. The response is large: set
+  `web_search.enable` or `images.enable` to false when only the other is
+  needed. Use `image_search` for general photos and diagrams.
 
 ## Research quality
 

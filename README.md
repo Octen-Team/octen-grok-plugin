@@ -13,8 +13,10 @@ hosted MCP server for current web retrieval and content extraction.
 | `place_search` | Real-world places with address, coordinates, phone, opening hours and rating, around a point or in a named area. |
 | `pulse_search` | The URL a query most likely means, in about 10ms — official docs, help centres, known sites. |
 | `broad_search` | Multi-angle web search for broad coverage. |
+| `premier_search` | Web search with deeper retrieval and more careful reranking, for the page that is hard to find. It is slower and billed at its own per-call rate, so use `search` for ordinary lookups. |
 | `extract` | Clean, structured content from supplied or selected URLs. |
 | `image_search` | Images by text query or a reference image. |
+| `design_search` | Real web page, page section, app screen and slide designs, with their design values where available (such as colours and fonts) and the HTML for page sections that have reusable code. |
 
 ## Install
 
@@ -40,6 +42,21 @@ Nothing is installed locally and there is no API key to paste. On first
 connection the agent is prompted to sign in to Octen and authorize the
 connection in your browser; the grant can be revoked from your Octen account
 at any time.
+
+## Updating
+
+Grok Build keeps the commit a plugin was installed at. Early revisions of this plugin
+listed tools in the connection URL (`?tools=...`), for example only `search`,
+`news_search`, `broad_search` and `extract`, and an installation made from one of them
+still shows only the listed tools, whatever its version number says. If Octen shows
+fewer tools than the table above, update it, then restart the session:
+
+```bash
+grok plugin update octen
+```
+
+From version 1.1.0 on, the plugin does not list tools at all: the server decides the
+roster, so tools that Octen adds later appear without another update.
 
 ## Network endpoints and credentials
 
